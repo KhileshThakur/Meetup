@@ -1,0 +1,18 @@
+/* LiveKit default theme */
+[data-lk-theme="default"] {
+  --lk-bg: transparent;
+  --lk-overlay-bg: rgba(0, 0, 0, 0.8);
+  --lk-text: #fff;
+  --lk-control-bg: rgba(0, 0, 0, 0.3);
+  --lk-control-hover-bg: rgba(0, 0, 0, 0.5);
+  --lk-control-active-bg: rgba(0, 0, 0, 0.7);
+  --lk-control-text: #fff;
+  --lk-button-bg: rgba(255, 255, 255, 0.1);
+  --lk-button-hover-bg: rgba(255, 255, 255, 0.2);
+  --lk-button-active-bg: rgba(255, 255, 255, 0.3);
+  --lk-button-text: #fff;
+  --lk-participant-bg: rgba(255, 255, 255, 0.1);
+  --lk-participant-hover-bg: rgba(255, 255, 255, 0.2);
+  --lk-participant-active-bg: rgba(255, 255, 255, 0.3);
+  --lk-participant-text: #fff;
+} 

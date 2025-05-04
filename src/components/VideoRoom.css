@@ -1,0 +1,132 @@
+.video-room {
+  height: 100vh;
+  width: 100vw;
+  background: #1a1a2e;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.conference-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.error-message {
+  color: white;
+  text-align: center;
+  padding: 20px;
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+  border-radius: 8px;
+  margin: 20px;
+}
+
+.leave-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+.leave-button:hover {
+  background: #c82333;
+}
+
+/* LiveKit component styles */
+:root {
+  --lk-control-bar-height: 100px;
+}
+
+.lk-video-conference {
+  background: transparent !important;
+  height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.lk-grid-layout {
+  flex: 1 !important;
+  padding: 20px !important;
+  gap: 20px !important;
+}
+
+.lk-carousel-view {
+  flex: 1 !important;
+  padding: 20px !important;
+}
+
+.lk-participant-tile {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.lk-participant-metadata {
+  background: rgba(0, 0, 0, 0.4) !important;
+  padding: 8px !important;
+}
+
+.lk-participant-metadata-name {
+  color: white !important;
+  font-size: 14px !important;
+}
+
+.lk-control-bar {
+  background: rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 16px !important;
+  margin: 20px !important;
+  padding: 10px !important;
+  position: relative !important;
+}
+
+.lk-button {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  color: white !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.lk-button:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.lk-button-danger {
+  background: #dc3545 !important;
+}
+
+.lk-button-danger:hover {
+  background: #c82333 !important;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .lk-control-bar {
+    margin: 10px !important;
+    padding: 5px !important;
+  }
+
+  .lk-grid-layout {
+    padding: 10px !important;
+    gap: 10px !important;
+  }
+
+  .leave-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+} 
