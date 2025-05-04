@@ -38,6 +38,7 @@ function JoinForm({ onJoinRoom }) {
   const [roomName, setRoomName] = useState('');
   const [userName, setUserName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [meetingDetails, setMeetingDetails] = useState(null);  // To store meeting details
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,10 +50,13 @@ function JoinForm({ onJoinRoom }) {
         const createResponse = await axios.post(`${API_URL}/create-meet`, {
           roomName: roomName || undefined
         });
-
+        
         if (!createResponse.data.success) {
           throw new Error(createResponse.data.message || 'Failed to create room');
         }
+        
+        // Store the meeting details for displaying room info
+        setMeetingDetails(createResponse.data);
 
         // Join the created room
         const joinResponse = await axios.post(`${API_URL}/join-meet`, {
@@ -64,9 +68,8 @@ function JoinForm({ onJoinRoom }) {
           throw new Error(joinResponse.data.message || 'Failed to join room');
         }
 
-        const roomLink = `${window.location.origin}/join/${createResponse.data.roomName}`;
-        toast.success('Room created successfully! Share this link:');
-        prompt('Copy and share this meeting link:', roomLink);
+        onJoinRoom(joinResponse.data);
+        toast.success('Room created and joined successfully!');
       } else {
         // Join existing room
         const joinResponse = await axios.post(`${API_URL}/join-meet`, {
@@ -95,15 +98,15 @@ function JoinForm({ onJoinRoom }) {
         <h1 className="join-form-title">
           {isCreating ? 'Create Meeting' : 'Join Meeting'}
         </h1>
-
+        
         <div className="join-form-tabs">
-          <button
+          <button 
             className={`tab-button ${isCreating ? 'active' : ''}`}
             onClick={() => setIsCreating(true)}
           >
             <FaVideo /> Create
           </button>
-          <button
+          <button 
             className={`tab-button ${!isCreating ? 'active' : ''}`}
             onClick={() => setIsCreating(false)}
           >
@@ -134,17 +137,27 @@ function JoinForm({ onJoinRoom }) {
             />
           </div>
 
-          <button
-            type="submit"
+          <button 
+            type="submit" 
             className="submit-button"
             disabled={isLoading || (!isCreating && !roomName) || !userName}
           >
             {isLoading ? 'Loading...' : (isCreating ? 'Create & Join' : 'Join')}
           </button>
         </form>
+
+        {/* Display meeting details if the room is created */}
+        {isCreating && meetingDetails && (
+          <div className="meeting-details">
+            <h2>Meeting Created Successfully!</h2>
+            <p><strong>Room Name:</strong> {meetingDetails.roomName}</p>
+            <p><strong>Room ID:</strong> {meetingDetails.roomId}</p>
+            <p><strong>Join URL:</strong> <a href={meetingDetails.joinUrl} target="_blank" rel="noopener noreferrer">Join the meeting</a></p>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-export default JoinForm; 
+export default JoinForm;

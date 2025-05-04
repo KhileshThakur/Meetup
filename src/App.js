@@ -5,37 +5,32 @@ import JoinForm from './components/JoinForm';
 import VideoRoom from './components/VideoRoom';
 import './livekit-theme.css';
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from 'react-router-dom';
-import JoinPage from './components/JoinPage';
 
 function App() {
   const [roomData, setRoomData] = useState(null);
 
-  const handleLeaveRoom = () => setRoomData(null);
+  const handleJoinRoom = (data) => {
+    setRoomData(data);
+  };
+
+  const handleLeaveRoom = () => {
+    setRoomData(null);
+  };
 
   return (
-    <Router>
+    <div className="app">
       <Toaster position="top-center" />
-      <Routes>
-        <Route path="/" element={<JoinForm onJoinRoom={setRoomData} />} />
-        <Route path="/join/:roomName" element={
-          roomData ? (
-            <VideoRoom 
-              token={roomData.token}
-              roomName={roomData.roomName}
-              serverUrl={roomData.serverUrl}
-              onLeaveRoom={handleLeaveRoom}
-            />
-          ) : (
-            <JoinPage onJoinRoom={setRoomData} />
-          )
-        } />
-      </Routes>
-    </Router>
+      {!roomData ? (
+        <JoinForm onJoinRoom={handleJoinRoom} />
+      ) : (
+        <VideoRoom 
+          token={roomData.token} 
+          roomName={roomData.roomName} 
+          serverUrl={roomData.serverUrl}
+          onLeaveRoom={handleLeaveRoom}
+        />
+      )}
+    </div>
   );
 }
 
