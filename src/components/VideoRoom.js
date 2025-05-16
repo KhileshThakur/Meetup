@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import '@livekit/components-styles';
+import React, { useCallback, useEffect } from "react";
+import "@livekit/components-styles";
 import {
   LiveKitRoom,
   VideoConference,
@@ -9,19 +9,18 @@ import {
   ControlBar,
   useTracks,
   CarouselView,
-} from '@livekit/components-react';
-import { Track } from 'livekit-client';
-import { FaSignOutAlt } from 'react-icons/fa';
-import './VideoRoom.css';
+} from "@livekit/components-react";
+import { Track } from "livekit-client";
+// import { FaSignOutAlt } from "react-icons/fa";
+import "./VideoRoom.css";
 
 // Prevent style warning
 const preventStyleWarning = () => {
-  if (document.querySelector('style[data-lk-themes]')) return;
-  const style = document.createElement('style');
-  style.setAttribute('data-lk-themes', 'true');
+  if (document.querySelector("style[data-lk-themes]")) return;
+  const style = document.createElement("style");
+  style.setAttribute("data-lk-themes", "true");
   document.head.appendChild(style);
 };
-
 function VideoConferenceComponent() {
   useEffect(() => {
     preventStyleWarning();
@@ -33,17 +32,20 @@ function VideoConferenceComponent() {
   ]);
 
   return (
-    <div className="conference-container">
-      <VideoConference>
-        {tracks.length > 0 ? (
-          <GridLayout tracks={tracks}>
-            <ParticipantTile />
-          </GridLayout>
-        ) : (
-          <CarouselView />
-        )}
-        <ControlBar />
-      </VideoConference>
+    <div className="conference-wrapper">
+      <div className="video-grid">
+        <VideoConference>
+          {tracks.length > 0 ? (
+            <GridLayout tracks={tracks}>
+              <ParticipantTile />
+            </GridLayout>
+          ) : (
+            <CarouselView />
+          )}
+          <ControlBar />
+        </VideoConference>
+      </div>
+
       <RoomAudioRenderer />
     </div>
   );
@@ -66,24 +68,31 @@ function VideoRoom({ token, roomName, serverUrl, onLeaveRoom }) {
   };
 
   const handleDisconnected = useCallback(() => {
-    console.log('Disconnected from room');
+    console.log("Disconnected from room");
     onLeaveRoom();
   }, [onLeaveRoom]);
 
-  const handleError = useCallback((error) => {
-    console.error('Room connection error:', error);
-    onLeaveRoom();
-  }, [onLeaveRoom]);
+  const handleError = useCallback(
+    (error) => {
+      console.error("Room connection error:", error);
+      onLeaveRoom();
+    },
+    [onLeaveRoom]
+  );
 
   const handleConnected = useCallback((room) => {
     if (room) {
-      console.log('Connected to room:', room.name);
+      console.log("Connected to room:", room.name);
     }
   }, []);
 
   if (!token || !serverUrl) {
-    console.error('Missing connection parameters:', { token, serverUrl });
-    return <div className="error-message">Missing required connection parameters</div>;
+    console.error("Missing connection parameters:", { token, serverUrl });
+    return (
+      <div className="error-message">
+        Missing required connection parameters
+      </div>
+    );
   }
 
   return (
@@ -99,12 +108,10 @@ function VideoRoom({ token, roomName, serverUrl, onLeaveRoom }) {
         data-lk-theme="default"
       >
         <VideoConferenceComponent />
-        <button className="leave-button" onClick={onLeaveRoom}>
-          <FaSignOutAlt /> Leave Room
-        </button>
+        
       </LiveKitRoom>
     </div>
   );
 }
 
-export default VideoRoom; 
+export default VideoRoom;
